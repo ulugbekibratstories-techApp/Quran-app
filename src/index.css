@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+/* Active Synchronized Ayah Animation & Border */
+@keyframes ayahGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 1.5px rgba(212, 175, 55, 0.4), 0 4px 14px -2px rgba(6, 78, 59, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 2.5px rgba(212, 175, 55, 0.75), 0 6px 20px -2px rgba(6, 78, 59, 0.35);
+  }
+}
+
+.active-ayah-sync {
+  animation: ayahGlow 3s ease-in-out infinite;
+  border-color: #D4AF37 !important;
+  background-color: rgba(6, 78, 59, 0.09) !important;
+}
+
+.dark .active-ayah-sync {
+  background-color: rgba(6, 78, 59, 0.32) !important;
+  border-color: #E5C365 !important;
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+.font-mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle Islamic geometric octagram SVG pattern for sanctuary surfaces */
+.islamic-pattern-subtle {
+  background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23064E3B' stroke-opacity='0.055' stroke-width='0.8'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='9'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .islamic-pattern-subtle {
+  background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23D4AF37' stroke-opacity='0.065' stroke-width='0.8'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='9'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

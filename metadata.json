@@ -1,0 +1,6 @@
+{
+  "name": "QUR’ON APP",
+  "description": "Muqaddas Qurʼoni Karimning 114 surasi (Usmoniy mushaf va Shayx Muhammad Sodiq Muhammad Yusuf maʼnolari tarjimasi), Shayx Mishariy Roshid Alafasy toʻliq 114 sura audio tilovati, oflayn yuklab olish, Lotin/Kirill va Kun/Tun rejimlari.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

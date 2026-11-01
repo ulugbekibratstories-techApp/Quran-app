@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email_verified == true &&
+        (request.auth.token.email == 'ulugbekibratstories@gmail.com' ||
+         exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    // Reciters catalog: Public can read approved reciters, only admin can write
+    match /reciters/{reciterId} {
+      allow get, list: if true;
+      allow write: if isAdmin() && isValidId(reciterId);
+    }
+
+    // Audio tracks: Public can read approved tracks, only admin can manage approval
+    match /audioTracks/{trackId} {
+      allow get, list: if true;
+      allow write: if isAdmin() && isValidId(trackId);
+    }
+
+    // Video media: Public can read approved videos, only admin can write
+    match /videoMedia/{videoId} {
+      allow get, list: if true;
+      allow write: if isAdmin() && isValidId(videoId);
+    }
+
+    // Audit logs: Only admin can read or append
+    match /auditLogs/{logId} {
+      allow read, create: if isAdmin() && isValidId(logId);
+      allow update, delete: if false;
+    }
+
+    // User bookmarks collection (if authenticated user syncs personal bookmarks)
+    match /users/{userId}/bookmarks/{bookmarkId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId && isValidId(bookmarkId);
+    }
+  }
+}

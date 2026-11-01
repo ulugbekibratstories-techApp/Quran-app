@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "Reciter": {
+      "title": "Reciter",
+      "description": "Quran reciter profile with verification and style details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nameLatin": { "type": "string" },
+        "nameCyrillic": { "type": "string" },
+        "arabicName": { "type": "string" },
+        "countryOriginLatin": { "type": "string" },
+        "isUzbekReciter": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["APPROVED", "PENDING_REVIEW", "REJECTED"] },
+        "verifiedSurahCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "nameLatin", "status", "verifiedSurahCount"]
+    },
+    "AudioTrack": {
+      "title": "AudioTrack",
+      "description": "Approved or pending Quran audio recording for streaming and offline download.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reciterId": { "type": "string" },
+        "surahNumber": { "type": "number" },
+        "arabicSurahName": { "type": "string" },
+        "titleLatin": { "type": "string" },
+        "titleCyrillic": { "type": "string" },
+        "audioUrl": { "type": "string" },
+        "format": { "type": "string", "enum": ["mp3", "m4a", "aac"] },
+        "status": { "type": "string", "enum": ["APPROVED", "PENDING_REVIEW", "REJECTED"] },
+        "sourceName": { "type": "string" },
+        "rightsStatus": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "reciterId", "surahNumber", "audioUrl", "status"]
+    },
+    "VideoMedia": {
+      "title": "VideoMedia",
+      "description": "Official YouTube video recitation or lecture.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "youtubeVideoId": { "type": "string" },
+        "titleLatin": { "type": "string" },
+        "titleCyrillic": { "type": "string" },
+        "channelHandle": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["APPROVED", "PENDING_REVIEW", "REJECTED"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "youtubeVideoId", "titleLatin", "status"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable security and media approval audit entry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "actorEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "actorEmail", "action", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/reciters/{reciterId}": {
+      "schema": "Reciter",
+      "description": "Public catalog of verified Quran reciters."
+    },
+    "/audioTracks/{trackId}": {
+      "schema": "AudioTrack",
+      "description": "Approved and submitted Quran audio recordings."
+    },
+    "/videoMedia/{videoId}": {
+      "schema": "VideoMedia",
+      "description": "Official YouTube recitation videos."
+    },
+    "/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Administrative action logs."
+    }
+  }
+}
