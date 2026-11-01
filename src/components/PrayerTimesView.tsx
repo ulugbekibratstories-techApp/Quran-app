@@ -17,6 +17,7 @@ import {
   Info,
   ShieldCheck,
   Globe2,
+  Pause,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { GLOBAL_CITIES, searchGlobalCities, getCityById } from '../shared/globalCities';
@@ -68,6 +69,30 @@ export const PrayerTimesView: React.FC = () => {
 
   // Qibla compass angle
   const [compassHeading, setCompassHeading] = useState<number>(0);
+
+  // Azan audio playback
+  const [playingAzan, setPlayingAzan] = useState<string | null>(null);
+  const azanAudioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  const AZAN_AUDIO_URL =
+    'https://server8.mp3quran.net/afs/azan/azan_alafasy.mp3';
+
+  const playAzan = (prayerKey: string) => {
+    if (azanAudioRef.current) {
+      azanAudioRef.current.pause();
+      azanAudioRef.current = null;
+    }
+    if (playingAzan === prayerKey) {
+      setPlayingAzan(null);
+      return;
+    }
+    const audio = new Audio(AZAN_AUDIO_URL);
+    audio.onended = () => setPlayingAzan(null);
+    audio.onerror = () => setPlayingAzan(null);
+    audio.play().catch(() => setPlayingAzan(null));
+    azanAudioRef.current = audio;
+    setPlayingAzan(prayerKey);
+  };
 
   const currentCity = useMemo(() => getCityById(selectedCityId), [selectedCityId]);
 
@@ -395,22 +420,39 @@ export const PrayerTimesView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <span className="text-lg font-black text-stone-900 dark:text-stone-100 font-mono tracking-tight">
                     {prayer.time}
                   </span>
                   {prayer.key !== 'sunrise' && (
-                    <button
-                      onClick={() => toggleReminder(prayer.key)}
-                      className={`p-2 rounded-xl transition ${
-                        reminders[prayer.key]
-                          ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-100/60 dark:bg-emerald-950/60'
-                          : 'text-stone-400 hover:text-stone-600 dark:hover:text-stone-300'
-                      }`}
-                      title="Azon eslatmasi"
-                    >
-                      <Bell className="w-4 h-4" />
-                    </button>
+                    <>
+                      <button
+                        onClick={() => playAzan(prayer.key)}
+                        className={`p-2 rounded-xl transition ${
+                          playingAzan === prayer.key
+                            ? 'bg-amber-500 text-white animate-pulse'
+                            : 'text-amber-600 dark:text-amber-400 bg-amber-100/60 dark:bg-amber-950/60 hover:bg-amber-200/60'
+                        }`}
+                        title="Azonni tinglash"
+                      >
+                        {playingAzan === prayer.key ? (
+                          <Pause className="w-4 h-4" />
+                        ) : (
+                          <Volume2 className="w-4 h-4" />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => toggleReminder(prayer.key)}
+                        className={`p-2 rounded-xl transition ${
+                          reminders[prayer.key]
+                            ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-100/60 dark:bg-emerald-950/60'
+                            : 'text-stone-400 hover:text-stone-600 dark:hover:text-stone-300'
+                        }`}
+                        title="Azon eslatmasi"
+                      >
+                        <Bell className="w-4 h-4" />
+                      </button>
+                    </>
                   )}
                 </div>
               </div>

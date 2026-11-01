@@ -21,6 +21,26 @@ import {
   getTodayHadith,
 } from '../data/islamicData';
 
+function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const lines: string[] = [];
+  const paragraphs = text.split('\n');
+  for (const para of paragraphs) {
+    const words = para.split(' ');
+    let line = '';
+    for (const word of words) {
+      const test = line ? line + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines.push(line);
+  }
+  return lines;
+}
+
 export const DailySpiritualView: React.FC = () => {
   const { openSurah, toggleBookmark, isBookmarked, loc, playTrack } = useApp();
 
@@ -75,6 +95,105 @@ export const DailySpiritualView: React.FC = () => {
   };
 
   const isAyahBookmarked = isBookmarked(todayAyah.surahNumber, todayAyah.ayahNumber);
+
+  const renderPosterToCanvas = (): Promise<Blob | null> => {
+    return new Promise((resolve) => {
+      if (!posterModalContent) {
+        resolve(null);
+        return;
+      }
+
+      const dims =
+        posterFormat === 'story'
+          ? { w: 1080, h: 1920 }
+          : posterFormat === 'post'
+          ? { w: 1080, h: 1350 }
+          : { w: 1080, h: 1080 };
+
+      const canvas = document.createElement('canvas');
+      canvas.width = dims.w;
+      canvas.height = dims.h;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        resolve(null);
+        return;
+      }
+
+      const grad = ctx.createLinearGradient(0, 0, dims.w, dims.h);
+      grad.addColorStop(0, '#022c22');
+      grad.addColorStop(0.5, '#065f46');
+      grad.addColorStop(1, '#134e4a');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, dims.w, dims.h);
+
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.07)';
+      for (let x = 25; x < dims.w; x += 35) {
+        for (let y = 25; y < dims.h; y += 35) {
+          ctx.beginPath();
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(35, 35, dims.w - 70, dims.h - 70);
+
+      const padding = 90;
+      const contentW = dims.w - padding * 2;
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 34px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText(posterModalContent.title, padding, 70);
+
+      ctx.fillStyle = '#6ee7b7';
+      ctx.font = 'bold 24px sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('QUR\u2019ON APP', dims.w - padding, 75);
+
+      ctx.fillStyle = '#fde68a';
+      ctx.font = '52px serif';
+      ctx.direction = 'rtl';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const arabicLines = wrapText(ctx, posterModalContent.arabic, contentW);
+      let y = dims.h * 0.28;
+      for (const line of arabicLines) {
+        ctx.fillText(line, dims.w / 2, y);
+        y += 72;
+      }
+
+      ctx.direction = 'ltr';
+      ctx.fillStyle = '#f1f5f9';
+      ctx.font = '30px sans-serif';
+      const uzbekLines = wrapText(ctx, posterModalContent.uzbek, contentW);
+      y = dims.h * 0.58;
+      for (const line of uzbekLines) {
+        ctx.fillText(line, dims.w / 2, y);
+        y += 44;
+      }
+
+      ctx.strokeStyle = 'rgba(6, 78, 59, 0.8)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(padding, dims.h - 100);
+      ctx.lineTo(dims.w - padding, dims.h - 100);
+      ctx.stroke();
+
+      ctx.fillStyle = '#6ee7b7';
+      ctx.font = '24px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(posterModalContent.reference, padding, dims.h - 60);
+
+      ctx.textAlign = 'right';
+      ctx.fillText(todayStr, dims.w - padding, dims.h - 60);
+
+      canvas.toBlob((blob) => resolve(blob), 'image/png');
+    });
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8 animate-in fade-in">
@@ -420,7 +539,7 @@ export const DailySpiritualView: React.FC = () => {
                   {posterModalContent.title}
                 </span>
                 <span className="text-xs font-bold text-emerald-300 font-sans tracking-tight">
-                  QUR’ON APP
+                  QUR'ON APP
                 </span>
               </div>
 
@@ -450,8 +569,8 @@ export const DailySpiritualView: React.FC = () => {
               <button
                 onClick={async () => {
                   const shareData = {
-                    title: `QUR’ON APP — ${posterModalContent.title}`,
-                    text: `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]\n\nQUR’ON APP orqali ulashildi.`,
+                    title: `QUR'ON APP — ${posterModalContent.title}`,
+                    text: `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]\n\nQUR'ON APP orqali ulashildi.`,
                   };
                   if (navigator.share) {
                     try {
@@ -461,7 +580,7 @@ export const DailySpiritualView: React.FC = () => {
                     }
                   } else {
                     handleCopyText(
-                      ‘modal’,
+                      'modal',
                       `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]`
                     );
                   }
@@ -469,22 +588,23 @@ export const DailySpiritualView: React.FC = () => {
                 className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition"
               >
                 <Share2 className="w-4 h-4" />
-                <span>{loc(‘Ijtimoiy tarmoqqa ulashish’, ‘Ижтимоий тармоққа улашиш’)}</span>
+                <span>{loc('Ijtimoiy tarmoqqa ulashish', 'Ижтимоий тармоққа улашиш')}</span>
               </button>
 
               <button
-                onClick={() => {
-                  const text = `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]\n\nQUR’ON APP`;
-                  const blob = new Blob([text], { type: ‘text/plain’ });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement(‘a’);
-                  a.href = url;
-                  a.download = `quron-app-${posterModalContent.title.toLowerCase().replace(/\s+/g, ‘-’)}.txt`;
-                  a.click();
-                  URL.revokeObjectURL(url);
+                onClick={async () => {
+                  const pngBlob = await renderPosterToCanvas();
+                  if (pngBlob) {
+                    const url = URL.createObjectURL(pngBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `quron-app-${posterModalContent.title.toLowerCase().replace(/\s+/g, '-')}.png`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  }
                 }}
                 className="p-3 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 text-stone-800 dark:text-stone-200 rounded-xl transition"
-                title={loc(‘Yuklab olish’, ‘Юклаб олиш’)}
+                title={loc('Yuklab olish', 'Юклаб олиш')}
               >
                 <Download className="w-4 h-4" />
               </button>

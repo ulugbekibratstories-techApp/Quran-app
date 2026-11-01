@@ -12,9 +12,15 @@ import {
   Database,
   Info,
   CheckCircle2,
+  Bell,
+  BellRing,
+  Clock,
+  TestTube,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { CANONICAL_SURAH_CATALOG } from '../shared/surahCatalog';
+import { useDailyNotifications } from '../hooks/useDailyNotifications';
 
 export const SavedView: React.FC = () => {
   const { bookmarks, toggleBookmark, openSurah, loc } = useApp();
@@ -120,6 +126,13 @@ export const SettingsView: React.FC = () => {
     loc,
   } = useApp();
 
+  const {
+    settings: notifSettings,
+    toggleEnabled,
+    updateTime,
+    sendTestNotification,
+  } = useDailyNotifications();
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200 dark:border-stone-800 shadow-xs space-y-1">
@@ -129,6 +142,85 @@ export const SettingsView: React.FC = () => {
         <p className="text-xs text-stone-500 dark:text-stone-400">
           {loc('Ilovaning koʻrinishi, shrift oʻlchami va ekotizim tafsilotlari.', 'Илованинг кўриниши, шрифт ўлчами ва экотизим тафсилотлари.')}
         </p>
+      </div>
+
+      {/* Daily Notifications Section */}
+      <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-xs space-y-5">
+        <div className="flex items-center justify-between pb-4 border-b border-stone-100 dark:border-stone-800">
+          <div>
+            <h4 className="font-bold text-sm text-stone-900 dark:text-stone-100 flex items-center gap-2">
+              {notifSettings.enabled ? (
+                <BellRing className="w-4 h-4 text-emerald-600" />
+              ) : (
+                <Bell className="w-4 h-4 text-stone-400" />
+              )}
+              {loc('Kunlik bildirishnomalar', 'Кунлик билдиришномалар')}
+            </h4>
+            <p className="text-xs text-stone-500">
+              {loc('Har kuni oyat, hadis va zikr eslatmasi', 'Ҳар куни оят, ҳадис ва зикр эслатмаси')}
+            </p>
+          </div>
+          <button
+            onClick={toggleEnabled}
+            className={`relative w-12 h-6 rounded-full transition shrink-0 ${
+              notifSettings.enabled
+                ? 'bg-emerald-600'
+                : 'bg-stone-300 dark:bg-stone-700'
+            }`}
+            title="Bildirishnomani yoqish"
+          >
+            <span
+              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                notifSettings.enabled ? 'translate-x-6' : 'translate-x-0.5'
+              }`}
+            />
+          </button>
+        </div>
+
+        {notifSettings.enabled && notifSettings.permission === 'granted' && (
+          <div className="space-y-4">
+            {([
+              { key: 'ayahTime' as const, label: loc('Kun oyati vaqti', 'Кун ояти вақти'), icon: BookOpen },
+              { key: 'hadithTime' as const, label: loc('Kun hadisi vaqti', 'Кун ҳадиси вақти'), icon: Info },
+              { key: 'zikrTime' as const, label: loc('Kun zikri vaqti', 'Кун зикри вақти'), icon: Sparkles },
+            ]).map((item) => (
+              <div
+                key={item.key}
+                className="flex items-center justify-between gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  <item.icon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-xs font-semibold text-stone-700 dark:text-stone-300">
+                    {item.label}
+                  </span>
+                </div>
+                <input
+                  type="time"
+                  value={notifSettings[item.key]}
+                  onChange={(e) => updateTime(item.key, e.target.value)}
+                  className="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-mono font-bold text-stone-900 dark:text-stone-100 border border-stone-200 dark:border-stone-700 outline-none focus:ring-2 focus:ring-emerald-600"
+                />
+              </div>
+            ))}
+
+            <button
+              onClick={sendTestNotification}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 font-bold text-xs hover:bg-emerald-100 dark:hover:bg-emerald-900 transition border border-emerald-200/50 dark:border-emerald-800/40 w-full justify-center"
+            >
+              <TestTube className="w-4 h-4" />
+              {loc('Sinov bildirishnomasi yuborish', 'Синов билдиришномаси юбориш')}
+            </button>
+          </div>
+        )}
+
+        {notifSettings.enabled && notifSettings.permission !== 'granted' && (
+          <p className="text-xs text-amber-600 dark:text-amber-400">
+            {loc(
+              'Bildirishnoma ruxsati berilmagan. Iltimos, brauzer sozlamalarida ruxsat bering.',
+              'Билдиришнома рухсати берилмаган. Илтимос, браузер созламаларида рухсат беринг.'
+            )}
+          </p>
+        )}
       </div>
 
       <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-xs space-y-6">

@@ -32,21 +32,21 @@ export const VideosView: React.FC = () => {
         <div className="space-y-1">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400 text-xs font-semibold">
             <Youtube className="w-3.5 h-3.5" />
-            <span>@odiljonqoriismoiljonov</span>
+            <span>{loc('Qurʼon tilovatlari', 'Қуръон тиловатлари')}</span>
           </div>
           <h1 className="text-2xl font-extrabold text-stone-900 dark:text-stone-100">
-            {loc('Rasmiy video tilovatlar', 'Расмий видео тиловатлар')}
+            {loc('Video tilovatlar', 'Видео тиловатлар')}
           </h1>
           <p className="text-xs text-stone-500 dark:text-stone-400">
             {loc(
-              'Odiljon qori Ismoiljonovning YouTube kanalidagi rasmiy tilovat va darslari.',
-              'Одилжон қори Исмоилжоновнинг YouTube каналидаги расмий тиловат ва дарслари.'
+              'Shayx Mishariy Roshid Alafasyning YouTube kanalidagi goʻzal Qurʼon tilovatlari.',
+              'Шайх Мишарий Рошид Алафасининг YouTube каналдаги гўзал Қуръон тиловатлари.'
             )}
           </p>
         </div>
 
         <a
-          href="https://youtube.com/@odiljonqoriismoiljonov"
+          href="https://www.youtube.com/@afasy"
           target="_blank"
           rel="noreferrer"
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-xs transition shrink-0"
