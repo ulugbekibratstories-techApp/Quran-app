@@ -23,6 +23,7 @@ import { useApp } from '../context/AppContext';
 import { TAJWID_LESSONS } from '../data/islamicData';
 import { CANONICAL_SURAH_CATALOG } from '../shared/surahCatalog';
 import { TajwidLessonItem } from '../shared/types';
+import { getSurahDetail } from '../services/quranData';
 
 type MainTab = 'hifz' | 'khatm' | 'tajwid' | 'kids';
 
@@ -85,6 +86,19 @@ export const HifzAndTajwidView: React.FC = () => {
       return next;
     });
   };
+
+  // --- AYAH TEXT CACHE ---
+  const [ayahTexts, setAyahTexts] = useState<Record<number, string[]>>({});
+
+  useEffect(() => {
+    const detail = getSurahDetail(selectedSurahNum);
+    if (detail && detail.ayahs) {
+      setAyahTexts((prev) => ({
+        ...prev,
+        [selectedSurahNum]: detail.ayahs.map((a) => a.arabicText || ''),
+      }));
+    }
+  }, [selectedSurahNum]);
 
   // --- TAJWID STATE ---
   const [selectedLesson, setSelectedLesson] = useState<TajwidLessonItem>(TAJWID_LESSONS[0]);
@@ -333,15 +347,8 @@ export const HifzAndTajwidView: React.FC = () => {
                       ) : (
                         <div className="space-y-2">
                           <p className="font-arabic text-2xl text-right leading-loose text-stone-900 dark:text-stone-100">
-                            {/* Canonical verse preview placeholder */}
-                            {selectedSurahNum === 1 && ayahNum === 1 && 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'}
-                            {selectedSurahNum === 1 && ayahNum === 2 && 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ'}
-                            {selectedSurahNum === 1 && ayahNum === 3 && 'الرَّحْمَٰنِ الرَّحِيمِ'}
-                            {selectedSurahNum === 1 && ayahNum === 4 && 'مَالِكِ يَوْمِ الدِّينِ'}
-                            {selectedSurahNum === 1 && ayahNum === 5 && 'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ'}
-                            {selectedSurahNum === 1 && ayahNum === 6 && 'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ'}
-                            {selectedSurahNum === 1 && ayahNum === 7 && 'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ'}
-                            {selectedSurahNum !== 1 && `﴿ ${ayahNum} ﴾ ... (Oyat matnini qiroat qiling)`}
+                            {ayahTexts[selectedSurahNum]?.[ayahNum - 1] ||
+                              `﴿${ayahNum}﴾`}
                           </p>
                         </div>
                       )}

@@ -549,7 +549,7 @@ export const HomeView: React.FC = () => {
               {loc('Rasmiy YouTube kanali', 'Расмий YouTube канали')}
             </h4>
             <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
-              Odiljon qori Ismoiljonovning video tilovatlari va maʼruzalari
+              {loc('Shayx Mishariy Roshid Alafasyning video tilovatlari', 'Шайх Мишарий Рошид Алафасининг видео тиловатлари')}
             </p>
             <button
               onClick={() => setView('videos')}
