@@ -448,17 +448,20 @@ export const DailySpiritualView: React.FC = () => {
             {/* Actions: Download & Native Share */}
             <div className="flex items-center gap-3 pt-2">
               <button
-                onClick={() => {
+                onClick={async () => {
+                  const shareData = {
+                    title: `QUR’ON APP — ${posterModalContent.title}`,
+                    text: `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]\n\nQUR’ON APP orqali ulashildi.`,
+                  };
                   if (navigator.share) {
-                    navigator
-                      .share({
-                        title: `QUR’ON APP — ${posterModalContent.title}`,
-                        text: `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]\n\nQUR’ON APP orqali ulashildi.`,
-                      })
-                      .catch(console.error);
+                    try {
+                      await navigator.share(shareData);
+                    } catch (e) {
+                      // User cancelled — ignore
+                    }
                   } else {
                     handleCopyText(
-                      'modal',
+                      ‘modal’,
                       `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]`
                     );
                   }
@@ -466,15 +469,22 @@ export const DailySpiritualView: React.FC = () => {
                 className="flex-1 py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition"
               >
                 <Share2 className="w-4 h-4" />
-                <span>{loc('Ijtimoiy tarmoqqa ulashish', 'Ижтимоий тармоққа улашиш')}</span>
+                <span>{loc(‘Ijtimoiy tarmoqqa ulashish’, ‘Ижтимоий тармоққа улашиш’)}</span>
               </button>
 
               <button
                 onClick={() => {
-                  window.print();
+                  const text = `${posterModalContent.arabic}\n\n${posterModalContent.uzbek}\n[${posterModalContent.reference}]\n\nQUR’ON APP`;
+                  const blob = new Blob([text], { type: ‘text/plain’ });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement(‘a’);
+                  a.href = url;
+                  a.download = `quron-app-${posterModalContent.title.toLowerCase().replace(/\s+/g, ‘-’)}.txt`;
+                  a.click();
+                  URL.revokeObjectURL(url);
                 }}
                 className="p-3 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 text-stone-800 dark:text-stone-200 rounded-xl transition"
-                title="Chop etish / PDF saqlash"
+                title={loc(‘Yuklab olish’, ‘Юклаб олиш’)}
               >
                 <Download className="w-4 h-4" />
               </button>

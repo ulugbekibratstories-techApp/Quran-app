@@ -187,121 +187,6 @@ export const ALL_RECITERS_CATALOG: ReciterProfile[] = [
     expectedSurahCount: 114,
     createdAt: '2026-01-01T00:00:00.000Z',
   },
-  // 9. Shayx Alijon qori
-  {
-    id: 'sheikh_alijon_qori',
-    slug: 'sheikh-alijon-qori',
-    nameLatin: 'Shayx Alijon qori',
-    nameCyrillic: 'Шайх Алижон қори',
-    arabicName: 'الشيخ علي جان القارئ',
-    countryOriginLatin: 'Oʻzbekiston (Toshkent / Andijon)',
-    countryOriginCyrillic: 'Ўзбекистон (Тошкент / Андижон)',
-    isUzbekReciter: true,
-    isDefaultFeatured: true,
-    styleLatin: 'Oʻzbekiston qiroat maktabi (Al-Muallim)',
-    styleCyrillic: 'Ўзбекистон қироат мактаби (Ал-Муаллим)',
-    bioLatin: 'Oʻzbekistondagi eng nufuzli Qurʼon ustozlaridan biri, «Al-Muallim» loyihasi asoschisi, koʻplab qorilar yetishtirgan ulkan ilm sohibi.',
-    bioCyrillic: 'Ўзбекистондаги энг нуфузли Қуръон устозларидан бири, «Ал-Муаллим» лойиҳаси асосчиси, кўплаб қорилар етиштирган улкан илм соҳиби.',
-    portraitUrl: null,
-    sourceAttribution: 'Al-Muallim & Rasmiy Ochiq Manbalar',
-    licenseStatus: 'Official Open Religious Media',
-    status: 'APPROVED',
-    verifiedSurahCount: 37,
-    expectedSurahCount: 114,
-    createdAt: '2026-01-01T00:00:00.000Z',
-  },
-  // 10. Hasanxon Yahyo Abdulmajid
-  {
-    id: 'hasanxon_yahyo',
-    slug: 'hasanxon-yahyo',
-    nameLatin: 'Hasanxon Yahyo Abdulmajid',
-    nameCyrillic: 'Ҳасанхон Яҳё Абдулмажид',
-    arabicName: 'الشيخ حسن خان يحيى عبد المجيد',
-    countryOriginLatin: 'Oʻzbekiston (Andijon / Toshkent)',
-    countryOriginCyrillic: 'Ўзбекистон (Андижон / Тошкент)',
-    isUzbekReciter: true,
-    isDefaultFeatured: false,
-    styleLatin: 'Hafs \'an Asim (Murattal / Tajvid)',
-    styleCyrillic: 'Ҳафс ан Осим (Мураттал / Тажвид)',
-    bioLatin: 'Shayx Muhammad Sodiq Muhammad Yusuf hazratlarining shogirdi, Qurʼon xodimi, tajvid va qiroat ilmlari ustozi.',
-    bioCyrillic: 'Шайх Муҳаммад Содиқ Муҳаммад Юсуф ҳазратларининг шогирди, Қуръон ходими, тажвид ва қироат илмлари устози.',
-    portraitUrl: null,
-    sourceAttribution: 'Islom.uz & Hilol Nashr Rasmiy Arxiv',
-    licenseStatus: 'Official Religious Media',
-    status: 'APPROVED',
-    verifiedSurahCount: 37,
-    expectedSurahCount: 114,
-    createdAt: '2026-01-01T00:00:00.000Z',
-  },
-  // 11. Husanxon Yahyo Abdulmajid
-  {
-    id: 'husanxon_yahyo',
-    slug: 'husanxon-yahyo',
-    nameLatin: 'Husanxon Yahyo Abdulmajid',
-    nameCyrillic: 'Ҳусанхон Яҳё Абдулмажид',
-    arabicName: 'الشيخ حسين خان يحيى عبد المجيد',
-    countryOriginLatin: 'Oʻzbekiston (Andijon / Toshkent)',
-    countryOriginCyrillic: 'Ўзбекистон (Андижон / Тошкент)',
-    isUzbekReciter: true,
-    isDefaultFeatured: false,
-    styleLatin: 'Hafs \'an Asim (Murattal)',
-    styleCyrillic: 'Ҳафс ан Осим (Мураттал)',
-    bioLatin: 'Qurʼoni Karim hofizi, mahoratli xushovoz qori va tajvid muallimi. Goʻzal qiroati va taʼlimiy darslari bilan mashhur.',
-    bioCyrillic: 'Қуръони Карим ҳофизи, маҳоратли хушовоз қори ва тажвид муаллими. Гўзал қироати ва таълимий дарслари билан машҳур.',
-    portraitUrl: null,
-    sourceAttribution: 'Hilol Nashr & Rasmiy Manbalar',
-    licenseStatus: 'Official Religious Media',
-    status: 'APPROVED',
-    verifiedSurahCount: 37,
-    expectedSurahCount: 114,
-    createdAt: '2026-01-01T00:00:00.000Z',
-  },
-  // 12. Abdulbosit qori Qobilov
-  {
-    id: 'abdulbosit_qobilov',
-    slug: 'abdulbosit-qobilov',
-    nameLatin: 'Abdulbosit qori Qobilov',
-    nameCyrillic: 'Абдулбосит қори Қобилов',
-    arabicName: 'عبد الباسط قارئ قابيلوف',
-    countryOriginLatin: 'Oʻzbekiston (Andijon)',
-    countryOriginCyrillic: 'Ўзбекистон (Андижон)',
-    isUzbekReciter: true,
-    isDefaultFeatured: false,
-    styleLatin: 'Oʻzbekiston qiroat maktabi',
-    styleCyrillic: 'Ўзбекистон қироат мактаби',
-    bioLatin: 'Andijon viloyatining xushovoz qorilaridan biri, namozlar va xatmonalardagi taʼsirli va samimiy tilovatlari bilan tanilgan.',
-    bioCyrillic: 'Андижон вилоятининг хушовоз қориларидан бири, намозлар ва хатмоналардаги таъсирли ва самимий тиловатлари билан танилган.',
-    portraitUrl: null,
-    sourceAttribution: 'Rasmiy Ochiq Diniy Manbalar',
-    licenseStatus: 'Open Religious Archive',
-    status: 'APPROVED',
-    verifiedSurahCount: 37,
-    expectedSurahCount: 114,
-    createdAt: '2026-01-01T00:00:00.000Z',
-  },
-  // 13. Muhammadloiq qori Aminov
-  {
-    id: 'muhammadloiq_aminov',
-    slug: 'muhammadloiq-aminov',
-    nameLatin: 'Muhammadloiq qori Aminov',
-    nameCyrillic: 'Муҳаммадлоиқ қори Аминов',
-    arabicName: 'محمد لائق قارئ أمينوف',
-    countryOriginLatin: 'Oʻzbekiston (Fargʻona / Toshkent)',
-    countryOriginCyrillic: 'Ўзбекистон (Фарғона / Тошкент)',
-    isUzbekReciter: true,
-    isDefaultFeatured: false,
-    styleLatin: 'Hafs \'an Asim (Murattal)',
-    styleCyrillic: 'Ҳафс ан Осим (Мураттал)',
-    bioLatin: 'Oʻzbekistonlik iqtidorli yosh qori, xalqaro musobaqalar ishtirokchisi, taʼsirli va xushuʼli tilovat sohibi.',
-    bioCyrillic: 'Ўзбекистонлик иқтидорли ёш қори, халқаро мусобақалар иштирокчиси, таъсирли ва хушуъли тиловат соҳиби.',
-    portraitUrl: null,
-    sourceAttribution: 'Rasmiy Ochiq Diniy Manbalar',
-    licenseStatus: 'Open Religious Archive',
-    status: 'APPROVED',
-    verifiedSurahCount: 37,
-    expectedSurahCount: 114,
-    createdAt: '2026-01-01T00:00:00.000Z',
-  },
 ];
 
 // Generate canonical audio tracks for a given reciter
@@ -351,8 +236,9 @@ export function getReciterAudioTracks(reciterId: string): AudioTrackRecord[] {
         break;
 
       case 'walid_al_shamsan':
-        audioUrl = `https://cdn.mp3quran.net/audio/waleed-shamsan/r1/${pad}.mp3`;
-        sourceName = 'Mp3Quran Cloudflare CDN';
+        audioUrl = `https://server13.mp3quran.net/shamsan/${pad}.mp3`;
+        fallbackUrl = `https://download.quranicaudio.com/quran/waleed_al-shamsan/${pad}.mp3`;
+        sourceName = 'Mp3Quran & Quranicaudio Verified CDN';
         break;
 
       case 'mahmoud_al_hussary':
@@ -366,32 +252,6 @@ export function getReciterAudioTracks(reciterId: string): AudioTrackRecord[] {
         fallbackUrl = `https://server7.mp3quran.net/basit/${pad}.mp3`;
         sourceName = 'Mp3Quran High-Definition CDN';
         break;
-
-      // Uzbek reciters: verified surahs (Juz Amma 78-114 + Fotiha, Yasin, Mulk, Rahman, Waqiah, Kahf)
-      case 'sheikh_alijon_qori':
-      case 'hasanxon_yahyo':
-      case 'husanxon_yahyo':
-      case 'abdulbosit_qobilov':
-      case 'muhammadloiq_aminov': {
-        const isVerifiedUzbekSurah =
-          surah.number === 1 ||
-          surah.number === 36 ||
-          surah.number === 55 ||
-          surah.number === 56 ||
-          surah.number === 67 ||
-          surah.number === 18 ||
-          surah.number >= 78;
-
-        if (isVerifiedUzbekSurah) {
-          audioUrl = `https://cdn.mp3quran.net/audio/yasser-dosari/r1/${pad}.mp3`; // High-fidelity reference
-          sourceName = 'Oʻzbekiston qorilari rasmiy audio arxivi';
-        } else {
-          isPlayable = false;
-          audioUrl = '';
-          sourceName = 'Tekshiruv jarayonida (Yaqinda qoʻshiladi)';
-        }
-        break;
-      }
 
       default:
         audioUrl = `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${pad}.mp3`;

@@ -66,9 +66,10 @@ export const QuranReaderView: React.FC = () => {
 
   // Real-time Ayah Synchronization: compute timestamps and track active ayah
   const isCurrentSurahPlaying = isPlaying && currentTrack?.surahNumber === activeSurahNumber;
+  const activeReciterForSync = currentTrack?.reciterId || selectedReciterId;
   const ayahTimestamps = activeSurahDetail
     ? getAyahTimestamps(
-        currentTrack?.reciterId || selectedReciterId,
+        activeReciterForSync,
         activeSurahNumber,
         activeSurahDetail.ayahs,
         duration || 0
@@ -76,13 +77,13 @@ export const QuranReaderView: React.FC = () => {
     : [];
 
   useEffect(() => {
-    if (isCurrentSurahPlaying && ayahTimestamps.length > 0) {
+    if (isCurrentSurahPlaying && ayahTimestamps.length > 0 && duration > 0) {
       const liveAyah = findActiveAyahNumber(ayahTimestamps, currentTime * 1000);
       if (liveAyah && liveAyah !== activeAyahNumber) {
         setActiveAyahNumber(liveAyah);
       }
     }
-  }, [currentTime, isCurrentSurahPlaying, ayahTimestamps, activeAyahNumber, setActiveAyahNumber]);
+  }, [currentTime, isCurrentSurahPlaying, ayahTimestamps, activeAyahNumber, setActiveAyahNumber, duration]);
 
   // Smooth auto-scroll to active ayah without jitter
   useEffect(() => {
