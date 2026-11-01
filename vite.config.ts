@@ -45,6 +45,7 @@ export default defineConfig(() => {
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+          maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
           // Never auto-cache large MP3 streams; audio is cached explicitly via IndexedDB when user requests offline download
           navigateFallbackDenylist: [/^\/api\//],
           runtimeCaching: [

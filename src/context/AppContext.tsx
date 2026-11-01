@@ -21,6 +21,7 @@ import {
 } from '../services/offlineAudioDb';
 import { YASSER_DOSARI_RECITER_PROFILE } from '../data/yasserDosariData';
 import { ALL_RECITERS_CATALOG } from '../data/allRecitersData';
+import { getSurahDetail } from '../services/quranData';
 
 export type AppView =
   | 'home'
@@ -371,32 +372,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   }, []);
 
-  // Load surah detail from API
+  // Load surah detail from bundled client-side Quran data
   useEffect(() => {
-    let isCancelled = false;
     setIsLoadingSurah(true);
-
-    fetch(`/api/quran/surah/${activeSurahNumber}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load surah');
-        return res.json();
-      })
-      .then((data: SurahDetail) => {
-        if (!isCancelled) {
-          setActiveSurahDetail(data);
-          setIsLoadingSurah(false);
-        }
-      })
-      .catch((err) => {
-        if (!isCancelled) {
-          console.error(err);
-          setIsLoadingSurah(false);
-        }
-      });
-
-    return () => {
-      isCancelled = true;
-    };
+    const detail = getSurahDetail(activeSurahNumber);
+    setActiveSurahDetail(detail);
+    setIsLoadingSurah(false);
   }, [activeSurahNumber]);
 
   // Audio Controls

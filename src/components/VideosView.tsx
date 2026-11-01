@@ -11,16 +11,7 @@ export const VideosView: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   React.useEffect(() => {
-    fetch('/api/youtube/videos')
-      .then((res) => (res.ok ? res.json() : ODILJON_QORI_VIDEOS))
-      .then((data: VideoMediaRecord[]) => {
-        if (data && data.length > 0) {
-          setVideos(data);
-        }
-      })
-      .catch(() => {
-        // Fallback to verified local collection
-      });
+    setVideos(ODILJON_QORI_VIDEOS);
   }, []);
 
   const categories = [

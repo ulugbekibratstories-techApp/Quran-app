@@ -18,6 +18,7 @@ import {
   Calendar,
   Layers,
   ChevronRight,
+  Download,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { CANONICAL_SURAH_CATALOG } from '../shared/surahCatalog';
@@ -560,25 +561,25 @@ export const HomeView: React.FC = () => {
           </div>
         </div>
 
-        {/* Android Native App Companion */}
-        <div className="bg-white dark:bg-stone-900 rounded-2xl p-5 border border-stone-200 dark:border-stone-800 shadow-xs flex items-start gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+        {/* Install App (PWA / APK) */}
+        <div
+          onClick={() => setView('downloads')}
+          className="bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-2xl p-5 border border-emerald-600/40 shadow-xs hover:border-amber-500/50 transition cursor-pointer flex items-start gap-3.5 group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
             <Smartphone className="w-5 h-5" />
           </div>
           <div className="min-w-0">
-            <h4 className="font-bold text-sm text-stone-900 dark:text-stone-100">
-              {loc('Android ilovasi (APK)', 'Android иловаси (APK)')}
+            <h4 className="font-bold text-sm text-white">
+              {loc('Ilovani telefonga yuklash', 'Иловани телефонон юклаш')}
             </h4>
-            <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
-              com.quronapp.android · Jetpack Compose, Media3 ExoPlayer va toʻliq oflayn rejim
+            <p className="text-xs text-emerald-200/80 mt-0.5">
+              {loc('Brauzerdan toʻgʻridan-toʻgʻri oʻrnating — 114 sura, 6236 oyat va audio oflayn ishlaydi.', 'Браузердан тўғридан-тўғри ўрнатинг — 114 сура, 6236 оят ва аудио офлайн ишлайди.')}
             </p>
-            <button
-              onClick={() => setView('settings')}
-              className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-2 hover:underline"
-            >
-              <span>{loc('Tafsilotlar va sozlamalar', 'Тафсилотлар ва созламалар')}</span>
-              <ArrowRight className="w-3 h-3" />
-            </button>
+            <span className="inline-flex items-center gap-1 text-xs text-amber-400 font-semibold mt-2 group-hover:translate-x-1 transition">
+              <Download className="w-3.5 h-3.5" />
+              <span>{loc('Yuklab olish', 'Юклаб олиш')}</span>
+            </span>
           </div>
         </div>
       </section>

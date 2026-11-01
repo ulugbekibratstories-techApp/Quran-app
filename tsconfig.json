@@ -22,7 +22,8 @@
       ]
     },
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "noEmit": true
   },
-  "exclude": ["dist", "android-app", "data"]
+  "exclude": ["dist", "android-app"]
 }
