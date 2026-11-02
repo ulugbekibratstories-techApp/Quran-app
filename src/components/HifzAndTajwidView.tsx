@@ -95,7 +95,7 @@ export const HifzAndTajwidView: React.FC = () => {
     if (detail && detail.ayahs) {
       setAyahTexts((prev) => ({
         ...prev,
-        [selectedSurahNum]: detail.ayahs.map((a) => a.arabicText || ''),
+        [selectedSurahNum]: detail.ayahs.map((a) => a.arabic || ''),
       }));
     }
   }, [selectedSurahNum]);
